@@ -50,15 +50,27 @@ module.exports = function(grunt) {
             dest: 'views/images/build'
         }]
       }
+    },
+    cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'css/',
+          src: ['*.css', '!*.min.css'],
+          dest: 'css/',
+          ext: '.min.css'
+        }]
+      }
     }
   });
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-responsive-images');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify','responsive_images','imagemin']);
+  grunt.registerTask('default', ['uglify','responsive_images','imagemin','cssmin']);
 
 };
