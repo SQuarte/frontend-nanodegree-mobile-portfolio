@@ -1,3 +1,4 @@
+"use strict";
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
@@ -421,39 +422,23 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
-
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
-
-    return dx;
-  }
-
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    var newWidth;
+    switch(size) {
+      case "1":
+        newWidth =  25; break;
+      case "2":
+        newWidth =  33; break;
+      case "3":
+        newWidth =  50; break;
+      default:
+        console.log("bug in sizeSwitcher");
     }
+    var pizzeContainers = document.querySelectorAll(".randomPizzaContainer");
+    pizzeContainers.forEach(function(item){
+      item.style.width = newWidth + '%';
+    })
   }
 
   changePizzaSizes(size);
@@ -502,9 +487,14 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var phases = [];
+  var dy,i;
+  for (i = 0; i < items.length; i++) {
+    phases[i] = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+
+  }
+  for (i = 0; i < items.length; i++) {
+      items[i].style.left = items[i].basicLeft + 100 * phases[i] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
