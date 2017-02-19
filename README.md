@@ -5,7 +5,7 @@
 Just clone this repository and open in your favorite browser.
 Also you can use grunt to automatize some processes(min pics,js,css).
 
-If u have properly configurated environment run 'npm i' and 'grunt' from cmd in project directory.
+If you have properly configurated environment run 'npm i' and 'grunt' from cmd in project directory.
 Here link which help you to install [grunt](http://gruntjs.com/getting-started).
 
 
